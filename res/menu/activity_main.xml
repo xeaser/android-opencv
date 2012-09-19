@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/itemAdvance"
+        android:title="Advance"
+        android:orderInCategory="100"
+         android:alphabeticShortcut="s"
+        android:showAsAction="never" >
+        <menu>
+            <item android:id="@+id/itemInpaint" android:title="Inpaint"/>
+            <item android:id="@+id/itemBlend" android:title="Blend"/>
+        </menu>
+    </item>
+    <item android:id="@+id/itemFilter"
+         android:title="Filter"
+         android:alphabeticShortcut="f"
+         >
+         <menu>
+ <item android:id="@+id/itemFilterGrey" android:title="Grey" />
+ <item android:id="@+id/itemFilterRed" android:title="Red filter" />
+ <item android:id="@+id/itemFilterGreen" android:title="Green filter"/>
+ <item android:id="@+id/itemFilterBlue" android:title="Blue filter"/>
+ </menu>
+    </item>
+    
+    <item android:id="@+id/itemFlipRotate" android:title="Flip &amp; Rotate">
+        <menu>
+            <item android:id="@+id/itemFlipHorizontal" android:title="Flip horizontal" /><item android:id="@+id/itemFlipVertical" android:title="Flip vertical" /><item android:id="@+id/itemRotate90" android:title="Rotate 90°"/>
+            <item android:id="@+id/itemRotate180" android:title="Rotate 180°"/>
+            <item android:id="@+id/itemRotate270" android:title="Rotate 270°"/>
+        </menu>
+    </item>
+    <item android:id="@+id/itemBasic" android:title="Basic">
+        <menu><item android:id="@+id/itemBrightContrast" android:title="Brightness &amp; Contrast"></item>
+        <item android:id="@+id/itemCrop" android:title="Crop"/>
+        <item android:id="@+id/itemResize" android:title="Resize"/>
+</menu>
+    </item>
+</menu>
