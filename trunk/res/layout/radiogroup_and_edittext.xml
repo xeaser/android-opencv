@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/etInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+        <requestFocus />
+    </EditText>
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+<TextView
+    android:id="@+id/tvGravity"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_weight="50"
+    android:gravity="center"
+    android:text="Gravity"
+    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+<TextView
+    android:id="@+id/tvStyle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_weight="50"
+    android:gravity="center"
+    android:text="Style"
+    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+<RadioGroup
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="50"
+    android:orientation="vertical" >
+        
+    <RadioButton
+        android:id="@+id/rbLeft"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:text="Left"
+        android:textSize="10pt" />
+
+    <RadioButton
+        android:id="@+id/rbCenter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Center"
+        android:textSize="10pt" />
+
+    <RadioButton
+        android:id="@+id/rbRight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right|center_vertical"
+        android:text="Right"
+        android:textSize="10pt" />
+
+</RadioGroup>
+    
+<RadioGroup
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="50"
+    android:orientation="vertical" >
+ >
+
+    <RadioButton
+        android:id="@+id/rbNormal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Normal"
+        android:textSize="10pt"
+        android:textStyle="normal" />
+
+    <RadioButton
+        android:id="@+id/rbBold"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Bold"
+        android:textSize="10pt"
+        android:textStyle="bold" />
+
+    <RadioButton
+        android:id="@+id/rbItalics"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Italics"
+        android:textSize="10pt"
+        android:textStyle="italic" />
+
+</RadioGroup>
+
+</LinearLayout>
+
+<TextView
+    android:id="@+id/tvOutput"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_weight="0"
+    android:gravity="center"
+    android:text="Enter something and click"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textSize="10pt" />
+
+<Button
+    android:id="@+id/button"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Get text"
+    android:textSize="15pt" />
+
+</LinearLayout>
