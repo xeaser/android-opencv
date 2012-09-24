@@ -32,6 +32,8 @@
         <menu><item android:id="@+id/itemBrightContrast" android:title="Brightness &amp; Contrast"></item>
         <item android:id="@+id/itemCrop" android:title="Crop"/>
         <item android:id="@+id/itemResize" android:title="Resize"/>
+        <item android:id="@+id/itemBlur" android:title="Blur"/>
+        <item android:id="@+id/itemSharpen" android:title="Sharpen"/>
 </menu>
     </item>
 </menu>
