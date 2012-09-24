@@ -45,8 +45,6 @@ public class MainAct extends Activity implements OnClickListener{
 				case LoaderCallbackInterface.SUCCESS:
 				{
 					Log.i(TAG, "OpenCV loaded successfully");
-					// Create and set View
-					//mView = new MainAct(mAppContext);
 					setContentView(R.layout.mainlayout);
 					// Check native OpenCV camera
 					//if( !mView.openCamera() ) {
@@ -201,7 +199,7 @@ public class MainAct extends Activity implements OnClickListener{
 		//Mat dst = null;
 		Bitmap bmp = null;
 		ImageView iv;
-		matSaved = matCurrent;
+		matSaved = matCurrent.clone();
 		
 		switch (item.getItemId()) {
 		case R.id.itemAdvance:
@@ -241,15 +239,27 @@ public class MainAct extends Activity implements OnClickListener{
 			
 		case R.id.itemBrightContrast:
 			Log.d(TAG, "Brightness & Contrast");
-			startActivity(new Intent("android.intent.action.SHOWLOGO"));
+			startActivity(new Intent("android.intent.action.BRIGHTNESSCONTRAST"));
 			break;
 		case R.id.itemCrop:
 			Log.d(TAG, "Crop");
+//			Intent intent = new Intent();
+//			intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//			startActivityForResult(intent, 1);
+//			startActivityForResult(Intent.createChooser(intent,"Wybierz plik"), SELECT_FILE);
 			//startActivity(new Intent("android.intent.action.SHOWLOGO"));
 			break;
 		case R.id.itemResize:
 			Log.d(TAG, "Resize");
 			//startActivity(new Intent("android.intent.action.SHOWLOGO"));
+			break;
+		case R.id.itemBlur:
+			Log.d(TAG, "Blur");
+			Imgproc.medianBlur(matCurrent, matCurrent, 11);
+			break;
+		case R.id.itemSharpen:
+			Log.d(TAG, "Sharpen");
+			
 			break;
 			
 		case R.id.itemFlipHorizontal:
@@ -267,7 +277,7 @@ public class MainAct extends Activity implements OnClickListener{
 			Log.d(TAG, "Rotate 90° clockwise");
 			//dst = new Mat(matCurrent.size(), matCurrent.type());
 			Core.flip(matCurrent.t(), matCurrent, 0);
-			
+		
 			break;
 		case R.id.itemRotate180:
 			Log.d(TAG, "Rotate 180° clockwise");
@@ -298,11 +308,17 @@ public class MainAct extends Activity implements OnClickListener{
 		ImageView ivDisplay = (ImageView) findViewById(R.id.ivDisplay);
 		iSelImg = (Integer) iv.getTag();
 		Log.d(TAG, String.valueOf(iSelImg));
-		ivDisplay.setImageBitmap(BitmapFactory.decodeFile(listFileName[iSelImg]));
-		matCurrent = Highgui.imread(listFileName[iSelImg]);
-		//iv = (ImageView) v.findViewWithTag(tag)
-		//switch (v.getTag()) {
-		//case 0:
-		//}
+		Bitmap bmp;
+		bmp = BitmapFactory.decodeFile(listFileName[iSelImg]);
+
+		if (matCurrent == null)
+			matCurrent = new Mat();
+
+		Log.d(TAG, "Bitmap to Mat");
+		Utils.bitmapToMat(bmp, matCurrent);
+		//matCurrent = Highgui.imread(listFileName[iSelImg]);
+		Log.d(TAG, "Mat to Bitmap");
+		//Utils.matToBitmap(matCurrent, bmp, true);
+		ivDisplay.setImageBitmap(bmp);
 	}
 }
