@@ -2,6 +2,11 @@ package com.example.androidopencv;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -10,8 +15,15 @@ import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfRect;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
+import org.opencv.objdetect.Objdetect;
+import org.opencv.photo.Photo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -215,6 +227,10 @@ public class MainAct extends Activity implements OnClickListener{
 			Log.d(TAG, "Flip rotate");
 			return true;
 			
+		case R.id.itemFaceRec:
+			MatOfRect facemat = new MatOfRect();
+			FaceDetect(matCurrent, facemat, "/sdcard/haar_frontalface.xml", true);
+			break;
 		case R.id.itemFilterGrey:
 			Log.d(TAG, "Filter grey");
 			Log.d(TAG, listFileName[0]);
@@ -259,9 +275,37 @@ public class MainAct extends Activity implements OnClickListener{
 			break;
 		case R.id.itemSharpen:
 			Log.d(TAG, "Sharpen");
+			//int array[][] = { {0, -1, 0} ,
+			//				{-1, 5, -1} , {0, -1, 0}};
+			Mat kern = new Mat(3, 3, CvType.CV_8UC1);
+			Log.d(TAG, "Depth=" +String.valueOf(kern.depth()) + ", chanels=" + String.valueOf(kern.channels()));
+			kern.get(0, 0)[0] = 0;
+			kern.get(0, 1)[0] =-1;
+			kern.get(0, 2)[0] = 0;
+			kern.get(1, 0)[0] =-1;
+			kern.get(1, 1)[0] = 5;
+			kern.get(1, 2)[0] =-1;
+			kern.get(2, 0)[0] = 0;
+			kern.get(2, 1)[0] =-1;
+			kern.get(2, 2)[0] = 0;
+			Imgproc.filter2D(matCurrent, matCurrent, matCurrent.depth(), kern);					
+						
+			break;
+			
+		case R.id.itemEqualHist:
+			Log.d(TAG, "Eualize histogram");
+			Mat hsv = matCurrent.clone();
+			List<Mat> listmat = new ArrayList<Mat>(3);
+			Imgproc.cvtColor(matCurrent, hsv, Imgproc.COLOR_RGB2HSV);
+			Core.split(hsv, listmat);
+			Imgproc.equalizeHist(listmat.get(2), listmat.get(2));
+			Core.merge(listmat, hsv);
+			Imgproc.cvtColor(hsv, matCurrent, Imgproc.COLOR_HSV2RGB);
 			
 			break;
 			
+		/////////
+		//	Flip
 		case R.id.itemFlipHorizontal:
 			Log.d(TAG, "Flip horizontal");
 			//startActivity(new Intent("android.intent.action.TESTIMAGE"));
@@ -289,6 +333,12 @@ public class MainAct extends Activity implements OnClickListener{
 			Log.d(TAG, "Rotate 270° clockwise");
 			//dst = new Mat(matCurrent.size(), matCurrent.type());
 			Core.flip(matCurrent.t(), matCurrent, 1);
+			break;
+			
+		case R.id.itemInpaint:
+			Log.d(TAG, "Inpaint");
+			Mat mask = Mat.zeros(matCurrent.size(), CvType.CV_8U);
+			Photo.inpaint(matCurrent, mask, matCurrent, 1, Photo.INPAINT_TELEA);
 			break;
 		default:
 			return false;
@@ -320,5 +370,26 @@ public class MainAct extends Activity implements OnClickListener{
 		Log.d(TAG, "Mat to Bitmap");
 		//Utils.matToBitmap(matCurrent, bmp, true);
 		ivDisplay.setImageBitmap(bmp);
+	}
+	
+	void FaceDetect(Mat img, MatOfRect face, String facexml, Boolean blDrawFace)
+	{
+		Mat gray, smallImg;
+		gray = new Mat(img.rows(), img.cols(), CvType.CV_8UC1);
+		smallImg = new Mat(img.rows(), img.cols(), CvType.CV_8UC1);
+		CascadeClassifier cascade = new CascadeClassifier();//, nestedCascade;
+		cascade.load(facexml);
+	    Imgproc.cvtColor(img, gray, Imgproc.COLOR_BGR2GRAY);
+	    Imgproc.resize( gray, smallImg, smallImg.size(), 0, 0, Imgproc.INTER_LINEAR);
+	    Imgproc.equalizeHist(smallImg, smallImg);
+		cascade.detectMultiScale(smallImg, face, 1.1, 3,
+				Objdetect.CASCADE_SCALE_IMAGE,	// detect multi scale
+				new Size(30, 30),	//	min face size
+				new Size(600, 600)	//	max face size
+		);
+		
+		if (blDrawFace)
+			for (Rect r : face.toArray())
+				Core.rectangle(img,	r.tl(), r.br(), new Scalar(0, 255, 0, 255), 2);
 	}
 }
