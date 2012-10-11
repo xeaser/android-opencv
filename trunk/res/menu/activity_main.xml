@@ -7,6 +7,8 @@
         <menu>
             <item android:id="@+id/itemInpaint" android:title="Inpaint"/>
             <item android:id="@+id/itemBlend" android:title="Blend"/>
+            <item android:id="@+id/itemEqualHist" android:title="Equalize histogram"/>
+            <item android:id="@+id/itemFaceRec" android:title="Face Recognition"/>
         </menu>
     </item>
     <item android:id="@+id/itemFilter"
